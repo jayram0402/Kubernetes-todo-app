@@ -1,0 +1,201 @@
+
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .todo-container {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    margin: 1rem auto;
+    transition: all 0.3s ease;
+    max-width: 1200px;
+    min-width: 300px; /* Minimum width to prevent collapse */
+    width: 95%; /* Fluid width */
+    box-sizing: border-box;
+  }
+  
+  .todo-container:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+  
+  .todo-header {
+    color: #2c3e50;
+    font-weight: 700;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(90deg, #3498db, #2980b9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fadeIn 1s ease-in;
+    font-size: clamp(1.5rem, 4vw, 2.5rem); /* Fluid font size */
+  }
+  
+  .subtitle {
+    font-size: clamp(0.8rem, 2vw, 1rem);
+    color: #7f8c8d;
+    margin-top: -10px;
+  }
+  
+  .table {
+    border-radius: 10px;
+    overflow: hidden;
+    width: 100%;
+    margin-bottom: 0; /* Remove default margin */
+  }
+  
+  .table thead {
+    background: #3498db;
+    color: white;
+  }
+  
+  .table tbody tr {
+    transition: all 0.2s ease;
+  }
+  
+  .table tbody tr:hover {
+    background: #f8f9fa;
+    transform: scale(1.01);
+  }
+  
+  .btn-custom {
+    border-radius: 25px;
+    padding: clamp(0.4rem, 1vw, 0.5rem) clamp(0.8rem, 2vw, 1rem);
+    transition: all 0.3s ease;
+    font-size: clamp(0.8rem, 1.5vw, 1rem);
+    white-space: nowrap; /* Prevent text wrapping */
+  }
+  
+  .btn-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .btn-primary.btn-custom {
+    background: #2980b9;
+    border: none;
+  }
+  
+  .btn-outline-primary.btn-custom {
+    border-color: #2980b9;
+    color: #2980b9;
+  }
+  
+  .btn-outline-danger.btn-custom {
+    border-color: #e74c3c;
+    color: #e74c3c;
+  }
+  
+  .pagination {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .pagination .page-item .page-link {
+    border-radius: 50%;
+    margin: 0;
+    color: #2980b9;
+    min-width: 2rem;
+    text-align: center;
+  }
+  
+  .pagination .page-item.active .page-link {
+    background: #2980b9;
+    border-color: #2980b9;
+    color: white;
+  }
+  
+  .modal-content {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    max-width: 90vw; /* Limit modal width on small screens */
+  }
+  
+  .modal-header {
+    background: #3498db;
+    color: white;
+    border-radius: 15px 15px 0 0;
+  }
+  
+  .form-control {
+    width: 100%;
+  }
+  
+  .form-control:focus {
+    border-color: #2980b9;
+    box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
+  }
+  
+  .alert {
+    border-radius: 10px;
+    width: 100%;
+  }
+  
+  /* Fluid Table Container */
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+  }
+  
+  /* Flexbox for Controls Row */
+  .controls-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .controls-row > * {
+    flex: 1 1 auto;
+    min-width: 0; /* Prevent overflow */
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .todo-header {
+      font-size: clamp(1.5rem, 5vw, 2rem);
+    }
+  
+    .subtitle {
+      font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+    }
+  
+    .table {
+      font-size: 0.9rem;
+    }
+  
+    .table td, .table th {
+      padding: 0.5rem;
+    }
+  
+    .controls-row {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .todo-header {
+      font-size: clamp(1.2rem, 6vw, 1.5rem);
+    }
+  
+    .subtitle {
+      font-size: clamp(0.7rem, 3vw, 0.8rem);
+    }
+  
+    .btn-custom {
+      width: 100%;
+      margin-bottom: 0.5rem;
+    }
+  }
+  
+  @keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
