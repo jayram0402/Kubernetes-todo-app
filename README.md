@@ -29,46 +29,46 @@ The **Todo Management System** is a lightweight yet powerful full-stack applicat
 ---
 
 ## 🌟 Overview
-The **Todo Management App** is crafted to help individuals manage tasks efficiently using a responsive and scalable tech stack.
+The *Todo Management App* is crafted to help individuals manage tasks efficiently using a responsive and scalable tech stack.
 
-- **🎯 Purpose**: Simple, intuitive task management system
-- **👥 Target Audience**: Students, devs, productivity enthusiasts
-- **🔖 Version**: `1.0.0`
+- *🎯 Purpose*: Simple, intuitive task management system
+- *👥 Target Audience*: Students, devs, productivity enthusiasts
+- *🔖 Version*: `1.0.0`
 
 ---
 
 ## 🔥 Key Features
-✅ **Create Tasks**: Quickly add todos  
-✅ **Update Tasks**: Edit and mark complete/incomplete  
-✅ **Delete Tasks**: Clean up completed or irrelevant items  
-✅ **Responsive UI**: Mobile-ready experience  
-✅ **RESTful API**: Structured backend integration  
-✅ **Validation**: Prevent empty or invalid submissions  
-✅ **Component-Based UI**: Easy to scale and maintain  
-✅ **Error Handling**: Smooth user feedback and logs  
-✅ **Minimalistic Design**: Focused on usability and clarity  
+✅ *Create Tasks*: Quickly add todos  
+✅ *Update Tasks*: Edit and mark complete/incomplete  
+✅ *Delete Tasks*: Clean up completed or irrelevant items  
+✅ *Responsive UI*: Mobile-ready experience  
+✅ *RESTful API*: Structured backend integration  
+✅ *Validation*: Prevent empty or invalid submissions  
+✅ *Component-Based UI*: Easy to scale and maintain  
+✅ *Error Handling*: Smooth user feedback and logs  
+✅ *Minimalistic Design*: Focused on usability and clarity  
 
 ---
 
 ## 🏗️ Technical Stack
-### **Frontend** (React.js)
-- **Framework**: React (with Vite)
-- **Styling**: CSS / Bootstrap (based on your setup)
-- **State Management**: React Hooks
-- **HTTP Requests**: Axios
-- **Routing**: React Router
+### *Frontend* (React.js)
+- *Framework*: React (with Vite)
+- *Styling*: CSS / Bootstrap (based on your setup)
+- *State Management*: React Hooks
+- *HTTP Requests*: Axios
+- *Routing*: React Router
 
-### **Backend** (Spring Boot)
-- **Framework**: Spring Boot `3.4.4`
-- **Database**: MySQL
-- **ORM**: Spring Data JPA + Hibernate
-- **Security**: Basic Auth / Expandable
-- **Build Tool**: Maven
+### *Backend* (Spring Boot)
+- *Framework*: Spring Boot `3.4.4`
+- *Database*: MySQL
+- *ORM*: Spring Data JPA + Hibernate
+- *Security*: Basic Auth / Expandable
+- *Build Tool*: Maven
 
-### **Dev Tools**
-- **Version Control**: Git + GitHub
-- **IDE**: IntelliJ IDEA / VS Code
-- **Testing**: JUnit, Postman
+### *Dev Tools*
+- *Version Control*: Git + GitHub
+- *IDE*: IntelliJ IDEA / VS Code
+- *Testing*: JUnit, Postman
 
 ---
 
