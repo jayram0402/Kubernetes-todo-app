@@ -1,7 +1,3 @@
-
----
-
-```markdown
 # Todo Management App ✅📋
 
 ![Todo App Logo](docs/logo.png)
