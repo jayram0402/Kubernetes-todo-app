@@ -190,7 +190,7 @@ This project is **NOT licensed** under any organization — feel free to use it 
 ---
 
 ## 🤝 Contributors
-🔹 [Enzo Leman](https://github.com/EnzoLeman) – Project Lead, Backend & Frontend Developer
+🔹 [Enzo Leman](https://github.com/ezekielemana) – Project Lead, Backend & Frontend Developer
 
 ---
 
