@@ -94,7 +94,7 @@ The *Todo Management App* is crafted to help individuals manage tasks efficientl
 
 #### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/EnzoLeman/todo-app.git
+git clone https://github.com/ezekielemana/todo-app.git
 cd todo-app
 ```
 
@@ -190,7 +190,7 @@ This project is **NOT licensed** under any organization — feel free to use it 
 ---
 
 ## 🤝 Contributors
-🔹 [Enzo Leman](https://github.com/ezekielemana) – Project Lead, Backend & Frontend Developer
+🔹 [Ezekiel Lemana](https://github.com/ezekielemana) – Project Lead, Backend & Frontend Developer
 
 ---
 
@@ -199,7 +199,7 @@ Got questions or suggestions?
 
 📧 **Email**: ezekielaugustino@gmail.com  
 📸 **Instagram**: [@Enzo_leman10](https://www.instagram.com/enzo_leman10/)  
-🐛 **Bug Reports**: [GitHub Issues](https://github.com/EnzoLeman/ems-project/issues)
+🐛 **Bug Reports**: [GitHub Issues](https://github.com/ezekielemana/ems-project/issues)
 
 ---
 
