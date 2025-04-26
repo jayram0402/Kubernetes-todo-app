@@ -94,7 +94,7 @@ The *Todo Management App* is crafted to help individuals manage tasks efficientl
 
 #### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/ezekielemana/todo-app.git
+git clone https://github.com/ezekiellemana/todo-app.git
 cd todo-app
 ```
 
