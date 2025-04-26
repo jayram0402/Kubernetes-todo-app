@@ -190,7 +190,7 @@ This project is **NOT licensed** under any organization — feel free to use it 
 ---
 
 ## 🤝 Contributors
-🔹 [Ezekiel Lemana](https://github.com/ezekielemana) – Project Lead, Backend & Frontend Developer
+🔹 [Ezekiel Lemana](https://github.com/ezekiellemana) – Project Lead, Backend & Frontend Developer
 
 ---
 
@@ -199,7 +199,7 @@ Got questions or suggestions?
 
 📧 **Email**: ezekielaugustino@gmail.com  
 📸 **Instagram**: [@Enzo_leman10](https://www.instagram.com/enzo_leman10/)  
-🐛 **Bug Reports**: [GitHub Issues](https://github.com/ezekielemana/ems-project/issues)
+🐛 **Bug Reports**: [GitHub Issues](https://github.com/ezekiellemana/ems-project/issues)
 
 ---
 
