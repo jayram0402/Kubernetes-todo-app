@@ -1,6 +1,5 @@
 {
   "name": "todo-frontend",
-  "private": false,
   "homepage": "https://ezekiellemana.github.io/Todo-App",
   "version": "1.0.0",
   "type": "module",
