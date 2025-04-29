@@ -1,4 +1,3 @@
-
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import TodoList from './components/TodoList';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -11,7 +10,9 @@ function App() {
     <BrowserRouter>
       <ToastContainer position="top-right" autoClose={3000} />
       <Routes>
-        <Route path="/" element={<TodoList />} />
+        <Route path="/Todo-App" element={<TodoList />} />
+        {/* Optional: Redirect from root to /Todo-App */}
+        <Route path="/" element={<Navigate to="/Todo-App" replace />} />
       </Routes>
     </BrowserRouter>
   );
