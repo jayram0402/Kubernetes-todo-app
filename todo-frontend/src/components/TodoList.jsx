@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Container, Row, Col, Button, Form, Table, Pagination, Alert, Spinner } from 'react-bootstrap';
 import axios from 'axios';
 import TodoModal from './TodoModal';
@@ -18,7 +17,8 @@ function TodoList() {
   const [error, setError] = useState(null);
   const [sortOrder, setSortOrder] = useState('desc'); // For createdAt sorting
 
-  const fetchTodos = async () => {
+  // Memoize fetchTodos with useCallback
+  const fetchTodos = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -43,11 +43,12 @@ function TodoList() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentPage, searchTerm, filterCompleted, sortOrder]);
 
+  // Use the memoized fetchTodos function inside useEffect
   useEffect(() => {
     fetchTodos();
-  }, [currentPage, searchTerm, filterCompleted, sortOrder]);
+  }, [fetchTodos]);
 
   const handleCreate = () => {
     setSelectedTodo(null);
