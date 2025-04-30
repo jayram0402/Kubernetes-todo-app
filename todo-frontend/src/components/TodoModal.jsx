@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Alert, Spinner } from 'react-bootstrap';
 import axios from 'axios';
@@ -10,75 +9,72 @@ function TodoModal({ show, onHide, todo, onSave }) {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    completed: false
+    completed: false,
   });
+
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  // Populate modal fields on open or reset if no todo
   useEffect(() => {
     if (todo) {
       setFormData({
-        title: todo.title || '',
-        description: todo.description || '',
-        completed: todo.completed || false
+        title: todo.title ?? '',
+        description: todo.description ?? '',
+        completed: todo.completed ?? false,
       });
     } else {
       setFormData({ title: '', description: '', completed: false });
     }
-  }, [todo]);
+  }, [todo, show]);
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError(null);
+    setLoading(true);
 
-    // Client-side validation matching TodoDTO constraints
-    if (!formData.title.trim()) {
-      setError('Title is required');
-      setLoading(false);
-      return;
-    }
-    if (formData.title.length < 2 || formData.title.length > 100) {
-      setError('Title must be between 2 and 100 characters');
-      setLoading(false);
-      return;
-    }
-    if (!formData.description.trim()) {
-      setError('Description is required');
-      setLoading(false);
-      return;
-    }
-    if (formData.description.length > 500) {
-      setError('Description must not exceed 500 characters');
-      setLoading(false);
-      return;
-    }
+    const { title, description } = formData;
+
+    // Basic validation
+    if (!title.trim()) return showError('Title is required');
+    if (title.length < 2 || title.length > 100)
+      return showError('Title must be 2-100 characters');
+    if (!description.trim()) return showError('Description is required');
+    if (description.length > 500)
+      return showError('Description must not exceed 500 characters');
 
     try {
       if (todo) {
         await axios.put(`${API_URL}/${todo.id}`, formData);
-        toast.success('Todo updated successfully');
+        toast.success('Todo updated!');
       } else {
         await axios.post(API_URL, formData);
-        toast.success('Todo created successfully');
+        toast.success('Todo created!');
       }
-      onSave();
+
+      onSave?.(); // Optional chaining for safety
       onHide();
-    } catch (error) {
-      const errorMsg = error.response?.data?.message || 'Failed to save todo: ' + error.message;
-      setError(errorMsg);
+    } catch (err) {
+      const errorMsg =
+        err.response?.data?.message || `Failed to save todo: ${err.message}`;
       toast.error(errorMsg);
+      setError(errorMsg);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value
-    }));
+  const showError = (msg) => {
+    setError(msg);
+    setLoading(false);
   };
 
   return (
@@ -94,6 +90,7 @@ function TodoModal({ show, onHide, todo, onSave }) {
               <Spinner animation="border" size="sm" /> Saving...
             </Alert>
           )}
+
           <Form.Group className="mb-3">
             <Form.Label>Title</Form.Label>
             <Form.Control
@@ -101,20 +98,18 @@ function TodoModal({ show, onHide, todo, onSave }) {
               name="title"
               value={formData.title}
               onChange={handleChange}
-              required
+              disabled={loading}
               minLength={2}
               maxLength={100}
-              disabled={loading}
-              className="shadow-sm"
-              isInvalid={formData.title && (formData.title.length < 2 || formData.title.length > 100)}
+              required
+              isInvalid={formData.title.length < 2 || formData.title.length > 100}
             />
             <Form.Control.Feedback type="invalid">
-              Title must be 2-100 characters
+              Title must be between 2 and 100 characters.
             </Form.Control.Feedback>
-            <Form.Text muted>
-              {formData.title.length}/100 characters
-            </Form.Text>
+            <Form.Text muted>{formData.title.length}/100 characters</Form.Text>
           </Form.Group>
+
           <Form.Group className="mb-3">
             <Form.Label>Description</Form.Label>
             <Form.Control
@@ -122,55 +117,54 @@ function TodoModal({ show, onHide, todo, onSave }) {
               name="description"
               value={formData.description}
               onChange={handleChange}
-              required
+              rows={3}
               maxLength={500}
               disabled={loading}
-              className="shadow-sm"
-              rows={3}
+              required
+              isInvalid={formData.description.length > 500}
               style={{ resize: 'vertical', minHeight: '100px' }}
-              isInvalid={formData.description && formData.description.length > 500}
             />
             <Form.Control.Feedback type="invalid">
-              Description must not exceed 500 characters
+              Max 500 characters allowed.
             </Form.Control.Feedback>
-            <Form.Text muted>
-              {formData.description.length}/500 characters
-            </Form.Text>
+            <Form.Text muted>{formData.description.length}/500 characters</Form.Text>
           </Form.Group>
+
           <Form.Group className="mb-3">
             <Form.Check
               type="checkbox"
-              name="completed"
               label="Completed"
+              name="completed"
               checked={formData.completed}
               onChange={handleChange}
               disabled={loading}
             />
           </Form.Group>
-          {todo && (
+
+          {todo?.createdAt && (
             <Form.Group className="mb-3">
               <Form.Label>Created At</Form.Label>
               <Form.Control
                 type="text"
                 value={new Date(todo.createdAt).toLocaleString()}
                 disabled
-                className="shadow-sm"
               />
             </Form.Group>
           )}
         </Modal.Body>
+
         <Modal.Footer className="d-flex justify-content-between flex-wrap gap-2">
-          <Button 
-            variant="secondary" 
-            onClick={onHide} 
+          <Button
+            variant="secondary"
+            onClick={onHide}
             disabled={loading}
             className="btn-custom flex-grow-1"
           >
             Close
           </Button>
-          <Button 
-            variant="primary" 
-            type="submit" 
+          <Button
+            variant="primary"
+            type="submit"
             disabled={loading}
             className="btn-custom flex-grow-1"
           >

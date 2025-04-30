@@ -1,6 +1,17 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Container, Row, Col, Button, Form, Table, Pagination, Alert, Spinner } from 'react-bootstrap';
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Form,
+  Table,
+  Pagination,
+  Alert,
+  Spinner,
+} from 'react-bootstrap';
 import axios from 'axios';
+import debounce from 'lodash.debounce';
 import TodoModal from './TodoModal';
 import { toast } from 'react-toastify';
 
@@ -15,28 +26,29 @@ function TodoList() {
   const [filterCompleted, setFilterCompleted] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [sortOrder, setSortOrder] = useState('desc'); // For createdAt sorting
+  const [sortOrder, setSortOrder] = useState('desc');
 
-  // Memoize fetchTodos with useCallback
   const fetchTodos = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
       let url = `${API_URL}?page=${currentPage}&size=10`;
+
       if (searchTerm) {
-        url = `${API_URL}/search?keyword=${searchTerm}`;
-      } else if (filterCompleted !== null) {
-        url = `${API_URL}/filter?completed=${filterCompleted}`;
+        url += `&keyword=${encodeURIComponent(searchTerm)}`;
       }
-      
+      if (filterCompleted !== null) {
+        url += `&completed=${filterCompleted}`;
+      }
+
       const response = await axios.get(url);
-      let sortedTodos = [...response.data];
-      sortedTodos.sort((a, b) => {
+      const sorted = [...response.data].sort((a, b) => {
         const dateA = new Date(a.createdAt);
         const dateB = new Date(b.createdAt);
         return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
       });
-      setTodos(sortedTodos);
+
+      setTodos(sorted);
     } catch (error) {
       setError('Failed to fetch todos: ' + error.message);
       toast.error('Error fetching todos');
@@ -45,7 +57,6 @@ function TodoList() {
     }
   }, [currentPage, searchTerm, filterCompleted, sortOrder]);
 
-  // Use the memoized fetchTodos function inside useEffect
   useEffect(() => {
     fetchTodos();
   }, [fetchTodos]);
@@ -74,18 +85,20 @@ function TodoList() {
     }
   };
 
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
-    setCurrentPage(0);
-  };
+  const debouncedSearch = useCallback(
+    debounce((value) => {
+      setSearchTerm(value);
+      setCurrentPage(0);
+    }, 300),
+    []
+  );
 
   const toggleSortOrder = () => {
-    setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
+    setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'));
   };
 
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleString();
-  };
+  const formatDate = (dateString) =>
+    new Date(dateString).toLocaleString();
 
   return (
     <Container fluid className="todo-container mx-auto">
@@ -108,15 +121,20 @@ function TodoList() {
           <Form.Control
             type="text"
             placeholder="Search todos..."
-            value={searchTerm}
-            onChange={handleSearch}
+            onChange={(e) => debouncedSearch(e.target.value)}
             disabled={loading}
             className="shadow-sm"
           />
         </Col>
         <Col xs={12} sm={6} md={4}>
           <Form.Select
-            onChange={(e) => setFilterCompleted(e.target.value === '' ? null : e.target.value === 'true')}
+            onChange={(e) =>
+              setFilterCompleted(
+                e.target.value === ''
+                  ? null
+                  : e.target.value === 'true'
+              )
+            }
             disabled={loading}
             className="shadow-sm"
           >
@@ -126,9 +144,9 @@ function TodoList() {
           </Form.Select>
         </Col>
         <Col xs={12} md={4} className="text-md-end">
-          <Button 
-            variant="primary" 
-            onClick={handleCreate} 
+          <Button
+            variant="primary"
+            onClick={handleCreate}
             disabled={loading}
             className="btn-custom shadow-sm"
           >
@@ -152,49 +170,55 @@ function TodoList() {
             </tr>
           </thead>
           <tbody>
-            {todos.map((todo) => (
-              <tr key={todo.id}>
-                <td>{todo.id}</td>
-                <td>{todo.title}</td>
-                <td>{todo.description}</td>
-                <td>{todo.completed ? 'Yes' : 'No'}</td>
-                <td>{formatDate(todo.createdAt)}</td>
-                <td>
-                  <div className="d-flex gap-2">
-                    <Button
-                      variant="outline-primary"
-                      size="sm"
-                      className="btn-custom flex-grow-1"
-                      onClick={() => handleEdit(todo)}
-                      disabled={loading}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      variant="outline-danger"
-                      size="sm"
-                      className="btn-custom flex-grow-1"
-                      onClick={() => handleDelete(todo.id)}
-                      disabled={loading}
-                    >
-                      Delete
-                    </Button>
-                  </div>
+            {todos.length === 0 && !loading ? (
+              <tr>
+                <td colSpan="6" className="text-center text-muted">
+                  No todos found. Try searching or adjusting filters.
                 </td>
               </tr>
-            ))}
+            ) : (
+              todos.map((todo) => (
+                <tr key={todo.id}>
+                  <td>{todo.id}</td>
+                  <td>{todo.title}</td>
+                  <td>{todo.description}</td>
+                  <td>{todo.completed ? 'Yes' : 'No'}</td>
+                  <td>{formatDate(todo.createdAt)}</td>
+                  <td>
+                    <div className="d-flex gap-2">
+                      <Button
+                        variant="outline-primary"
+                        size="sm"
+                        onClick={() => handleEdit(todo)}
+                        disabled={loading}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        variant="outline-danger"
+                        size="sm"
+                        onClick={() => handleDelete(todo.id)}
+                        disabled={loading}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </Table>
       </div>
 
       <Pagination className="justify-content-center mt-3">
         <Pagination.Prev
-          onClick={() => setCurrentPage(prev => Math.max(0, prev - 1))}
+          onClick={() => setCurrentPage((prev) => Math.max(0, prev - 1))}
           disabled={currentPage === 0 || loading}
         />
         <Pagination.Item active>{currentPage + 1}</Pagination.Item>
         <Pagination.Next
-          onClick={() => setCurrentPage(prev => prev + 1)}
+          onClick={() => setCurrentPage((prev) => prev + 1)}
           disabled={todos.length < 10 || loading}
         />
       </Pagination>
