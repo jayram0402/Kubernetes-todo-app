@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: mongo-health-check
+spec:
+  schedule: "*/2 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: checker
+              image: bitnami/mongodb:latest
+              command: ["mongo", "--eval", "db.stats()"]
+          restartPolicy: OnFailure
